@@ -149,7 +149,6 @@ Element.prototype.brother = function () {
 };
 
 Element.prototype.animate = function (anim, time = 400) {
-    // 参数验证
     if (typeof anim !== 'string') {
         throw new Error('动画类型必须是字符串');
     }
@@ -162,7 +161,6 @@ Element.prototype.animate = function (anim, time = 400) {
     const duration = time;
     const animType = anim.toLowerCase();
 
-    // 检查元素是否存在
     if (!element || !(element instanceof Element)) {
         console.warn('TaxJS: 无效的DOM元素');
         return element;
@@ -460,3 +458,32 @@ const ajax = {
         return this.xhr.send(...args);
     }
 }
+
+// 26.6.29 更新路由
+t.router = {
+    routes: {},
+    
+    register: function(path, handler) {
+        this.routes[path] = handler;
+        return this;
+    },
+    
+    navigate: function(path) {
+        const handler = this.routes[path] || this.routes['/404'] || function() {
+            console.warn(`TaxJS Router: 未找到路径 "${path}" 对应的路由`);
+        };
+        handler();
+        history.pushState(null, '', path);
+        return this;
+    },
+    
+    init: function() {
+        window.addEventListener('popstate', this._onPopState.bind(this));
+        this.navigate(window.location.pathname);
+        return this;
+    },
+    
+    _onPopState: function() {
+        this.navigate(window.location.pathname);
+    }
+};
