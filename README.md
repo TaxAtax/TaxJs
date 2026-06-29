@@ -1,95 +1,102 @@
-# TaxJs
-这是我自己写的一个用于学习的项目
+# TaxJS
 
+一个轻量、纯粹的 JavaScript 工具库，提供简洁的 DOM 操作、数组处理、对象扩展以及内置的前端路由模块。**无任何外部依赖**，旨在用最原生、最直接的方式提升开发效率。
 
-# TaxJS操作库使用说明
+## 设计初衷
 
-## 简介
-TaxJS是一个轻量级的操作库，旨在简化JavaScript中的操作。它提供了直观的API来创建元素、设置属性、添加事件监听器等功能，让前端开发更加高效。
+厌倦了大型框架的复杂和冗余？TaxJS 回归 JavaScript 的本质，对原生 API 进行实用、直观的封装，让你更专注于业务逻辑本身。
 
-## 核心功能
+## 核心特性
 
-### 1. 元素选择器
-TaxJS提供了多种方式来选择页面元素：
-- `t('#id')` - 通过ID选择元素
-- `t('.class')` - 通过类名选择元素
-- `t('tag')` - 通过标签名选择元素
-- `t.getId('id')` - 直接通过ID获取元素
-- `t.getByCls('class')` - 通过类名获取元素
+*   **简洁的 DOM 选择与操作**：通过 `t()` 函数和原型链扩展，提供类似 jQuery 的流畅体验。
+*   **实用的原生方法增强**：为 `Array` 和 `Object` 扩展了 `swap`、`uni`、`clear` 等常用方法。
+*   **内置简易动画**：支持 `fadeIn`、`slideUp` 等常见动画效果，无需额外引入动画库。
+*   **前端路由模块**：内置极简路由器 (`t.router`)，轻松构建单页应用 (SPA)。（新功能）
 
-### 2. 元素创建
-使用`t.create()`方法可以轻松创建新元素：
-- `t.create('div')` - 创建div元素并添加到body末尾
-- `t.create('button', parentElement)` - 创建按钮并插入到指定父元素
+## 快速开始
 
-### 3. 属性操作
-TaxJS扩展了Element原型，提供便捷的属性操作方法：
-- `element.setAttr('属性名', '属性值')` - 设置元素属性
-- `element.getAttr('属性名')` - 获取元素属性值
-- `element.removeAttr('属性名')` - 移除元素属性
+### 引入
 
-### 4. 类名操作
-提供了丰富的类名操作功能：
-- `element.getClsList()` - 获取元素所有类名
-- `element.getCls('className')` - 检查元素是否包含指定类名
-- `element.addClass('className')` - 添加类名
-- `element.removeClass('className')` - 移除类名
-- `element.toggleClass('className')` - 切换类名
+在你的 HTML 文件中，直接通过 `<script>` 标签引入 `TaxJS.js` 即可。
 
-### 5. 样式操作
-简化CSS样式操作：
-- `element.sty('属性名', '属性值')` - 设置单个样式
+```html
+<script src="path/to/TaxJS.js"></script>
+```
 
-- `element.sty({prop1: 'value1', prop2: 'value2'})` - 批量设置样式
+### 基础用法
 
-- `还可批量设置样式` - t():返回值如果是多个元素即可批量设置
+#### DOM 操作
 
-  `t().sty()`
+```javascript
+// 选择元素
+const el = t('#myElement');
+// 或
+const els = t('.my-class');
 
-### 6. 事件处理
-便捷的事件监听器管理：
-- `element.on('click', handler)` - 添加事件监听器
-- `element.off('click', handler)` - 移除事件监听器
-- `element.emit('click')` - 触发事件
+// 设置样式
+el.sty('color', 'red');
+// 或批量设置
+el.sty({
+    'background': '#f0f0f0',
+    'padding': '10px'
+});
 
-### 7. 内容操作
-操作元素内容的多种方式：
-- `element.text('文本内容')` - 设置或获取文本内容
-- `element.html('<p>HTML内容</p>')` - 设置或获取HTML内容
-- `element.val('表单值')` - 设置或获取表单元素值
+// 修改内容
+el.html('<strong>新内容</strong>');
+el.text('纯文本内容');
+```
 
-### 8. 动画效果
-内置基础动画功能：
-- `element.animate('fadeIn', 500)` - 淡入动画
-- `element.animate('fadeOut', 500)` - 淡出动画
-- `element.animate('slideup', 300)` - 上滑动画
-- `element.animate('slidedown', 300)` - 下滑动画
-- `element.animate('toggle', 400)` - 切换显示状态
+#### 数组增强
 
-### 9. DOM结构操作
-丰富的DOM节点操作方法：
-- `element.append(child)` - 在元素末尾添加子元素
-- `element.prepend(child)` - 在元素开头添加子元素
-- `element.before(sibling)` - 在元素前面添加兄弟元素
-- `element.after(sibling)` - 在元素后面添加兄弟元素
-- `element.remove()` - 移除元素自身
-- `element.empty()` - 清空元素所有子元素
+```javascript
+const arr = [1, 2, 3, 4, 5];
+arr.swap(0, 4);   // [5, 2, 3, 4, 1]
+arr.uni();        // 数组去重
+```
 
-## 数组扩展功能
-TaxJS还扩展了原生数组方法，提供更强大的数据处理能力：
-- `array.forEach(callback)` - 遍历数组元素
-- `array.map(callback)` - 映射数组元素
-- `array.filter(callback)` - 过滤数组元素
-- `array.find(callback)` - 查找数组元素
-- `array.reduce(callback, initialValue)` - 归约数组元素
+### 路由模块 (`t.router`)
 
-## 使用方法
-1. 在HTML页面中引入TaxJS库文件
-2. 直接使用`t()`选择器或Element原型方法进行DOM操作
-3. 享受简洁高效的DOM操作体验
+TaxJS 内置了一个极简路由，让你可以轻松实现页面无刷新切换。
 
-## 浏览器兼容性
-TaxJS支持所有现代浏览器，包括Chrome、Firefox、Safari、Edge等主流浏览器。
+```javascript
+// 1. 注册路由
+t.router.register('/', function() {
+    document.getElementById('home').style.display = 'block';
+    document.getElementById('about').style.display = 'none';
+});
 
-## 声明
-此程序完全开源
+t.router.register('/about', function() {
+    document.getElementById('home').style.display = 'none';
+    document.getElementById('about').style.display = 'block';
+});
+
+// 2. 启动路由
+document.addEventListener('DOMContentLoaded', function() {
+    t.router.init();
+});
+
+// 3. 在点击事件中导航
+document.getElementById('aboutLink').addEventListener('click', function(e) {
+    e.preventDefault();
+    t.router.navigate('/about');
+});
+```
+
+#### 路由 API
+
+*   `t.router.register(path, handler)`：注册一个路由规则。
+*   `t.router.navigate(path)`：跳转到指定路径（会更新浏览器地址栏）。
+*   `t.router.init()`：初始化路由器，监听 `popstate` 事件并处理当前 URL。
+
+## 完整 API 参考
+
+*   **DOM 操作**：`t()`, `sty()`, `html()`, `text()`, `val()`, `addCls()`, `delCls()`, `animate()` 等。
+*   **数组**：`atg()`, `swap()`, `uni()`, `clear()`, `fa()`, `ba()`, `find()` 等。
+*   **对象**：`get()`, `set()`。
+*   **Ajax**：`ajax.get()`, `ajax.post()`。
+
+*(提示：完整列表请参阅源码或后续详细文档)*
+
+## License
+
+MIT License © TaxAtax
